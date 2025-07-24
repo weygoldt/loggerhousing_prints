@@ -1,23 +1,5 @@
-include <BOSL/constants.scad>
-use <BOSL/metric_screws.scad>
-
-// ---------- print / preview quality ----------
-$fn = 128; // facet count for all curved surfaces
-
-// ---------- primary body ----------
-main_d = 50; // Ø of the main cylinder (mm)
-main_h = 30; // height of the main cylinder (mm)
-
-// ---------- port holes ----------
-port_large_d = 25;
-port_small_d = 17;
-port_large_y = 18;
-port_small_x = 14;
-port_small_y = -13;
-
-// ---------- rounding / fillet ----------
-edge_r = 1; // set 0 → disable Minkowski rounding
-
+include <BOSL2/std.scad>
+include <BOSL2/threading.scad>
 include <main_vars.scad> // include the main variables
 
 // Through-ports for connectors ----------------------------------
@@ -59,24 +41,17 @@ module rounded_shell() {
 
 // Screw holes for M4 screws ------------------------
 module screw_holes(x, y) {
-  union() {
-    translate([x, y, main_h * 1.5]) {
-      metric_bolt(size=4, l=main_h * 2, pitch=0);
-    }
-    translate([x, y, 1]) {
-      metric_nut(size=4, hole=false);
-    }
-    translate([x, y, -1]) {
-      metric_nut(size=4, hole=false);
-    }
+  translate([x, y, main_h / 2 + 5]) {
+    threaded_rod(d=4, l=main_h - 5, pitch=0.7, internal=true);
+    //cylinder(r=2, h=main_h - 5, center=true);
   }
 }
 
-color("lightblue", 1)
+color("lightblue", 0.5)
   difference() {
     rounded_shell();
     port_holes();
-    screw_holes(x=0, y=-main_d / 2 + 6);
-    screw_holes(x=18, y=4);
-    screw_holes(x=-18, y=4);
+    screw_holes(x=0, y=-main_d / 2 + 4);
+    screw_holes(x=20, y=4);
+    screw_holes(x=-20, y=4);
   }
