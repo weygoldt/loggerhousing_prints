@@ -5,7 +5,7 @@ $fn = $preview ? 24 : 120;
 
 // ---------- primary body ----------
 main_d = 50; // Ø of the main cylinder (mm)
-main_h = 30; // height of the main cylinder (mm)
+main_h = 28; // height of the main cylinder (mm)
 
 // ---------- port holes ----------
 port_large_d = 25;
